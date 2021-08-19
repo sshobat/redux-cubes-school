@@ -4,9 +4,28 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+//redux imports
+import { createStore, applyMiddleware, compose } from 'redux';
+import { Provider } from 'react-redux';
+import { reducer } from './store/reducer';
+import thunk from 'redux-thunk';
+
+//kada ima više argumenata mora compose
+const composedEnhancer = compose(
+                          applyMiddleware(thunk),
+                          window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+                        )
+
+const store = createStore(
+  reducer,
+  composedEnhancer
+  );
+
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );
